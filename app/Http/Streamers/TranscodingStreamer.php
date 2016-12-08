@@ -60,7 +60,9 @@ class TranscodingStreamer extends Streamer implements StreamerInterface
         if ($this->startTime) {
             array_unshift($args, "-ss {$this->startTime}");
         }
+		
+		$bitRateKB = $bitRate/8;
 
-        passthru("$ffmpeg ".implode($args, ' '));
+        passthru("$ffmpeg ".implode($args, ' ')."| buffer -b15 -s40k -p100 | tee /dev/tty | pv -qL".$bitRateKB."k > /dev/null");
     }
 }
