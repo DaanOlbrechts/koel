@@ -64,7 +64,8 @@ class TranscodingStreamer extends Streamer implements StreamerInterface
 		$bitRateKB = $bitRate/8;
 
 		//".$bitRateKB."
-		
+		echo "$ffmpeg ".implode($args, ' ')." | buffer -b15 -s".$bitRateKB."k -p100 | { tee /dev/fd/3 | pv -qL".$bitRateKB."k >/dev/null; } 3>&1";
+		return;
         passthru("$ffmpeg ".implode($args, ' ')." | buffer -b15 -s".$bitRateKB."k -p100 | { tee /dev/fd/3 | pv -qL".$bitRateKB."k >/dev/null; } 3>&1");
     }
 }
